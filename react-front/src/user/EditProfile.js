@@ -88,25 +88,30 @@ class EditProfile extends Component {
 
     clickSubmit = event => {
         event.preventDefault();
-        this.setState({loading: true})
-
-        if(this.isValid()){
-            const userId = this.props.match.params.userId;
-            const token = isAuthenticated().token;
-         
-        update(userId, token, this.userData).then(data => {
-            if(data.error) this.setState({error: data.error});
-            else
-                updateUser(data, () => {
-                    this.setState({
-                        redirectToProfile: true
-                });
-               
+        this.setState({ loading: true });
+    
+        if (this.isValid()) {
+          const userId = this.props.match.params.userId;
+          const token = isAuthenticated().token;
+    
+          update(userId, token, this.userData).then(data => {
+            if (data.error) {
+              this.setState({ error: data.error });
+            } else if (isAuthenticated().user.role === "admin") {
+              this.setState({
+                redirectToProfile: true
               });
-         });
-        
+            } else {
+              updateUser(data, () => {
+                this.setState({
+                  redirectToProfile: true
+                });
+              });
+            }
+          });
         }
-    };
+      };
+    
 
 
     signupForm = (name, email, password, about) => (
@@ -200,8 +205,12 @@ class EditProfile extends Component {
                     onError={i => (i.target.src = `${DefaultProfile}`)}
                     alt={name} 
                 />
+                {isAuthenticated().user.role === "admin" &&
+                    this.signupForm(name, email, password, about)}
 
-                {this.signupForm(name, email, password, about)}
+                {isAuthenticated().user._id === id &&
+                    this.signupForm(name, email, password, about)}
+                
             </div>
         );
     }

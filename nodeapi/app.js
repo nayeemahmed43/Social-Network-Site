@@ -8,7 +8,6 @@ const fs = require('fs');
 const cors = require('cors');
 const dotenv = require("dotenv");
 dotenv.config();
-// const {createPostValidatoer} = require("./validator")
 
 const morgan = require("morgan");
 
