@@ -49,7 +49,7 @@ res.status(401).json({ error: "Unauthorized Access !!" });
 }
 });
 
-const Port = process.env.Port || 8080;
+const Port = process.env.PORT || 8080;
 app.listen(Port, () => {
 console.log(`A Node Js API is listening on port: ${Port}`);
 });
