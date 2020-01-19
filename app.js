@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const connectDB = require("./DB/connection");
 const bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
@@ -14,7 +15,8 @@ const morgan = require("morgan");
 //db
 connectDB();
 
-app.use(express.static("react-front/build"));
+// app.use(express.static("react-front/build"));
+app.use(express.static(path.join(__dirname, "react-front/build")));
 
 //bring in routes
 const postRoutes = require("./routes/post");
@@ -43,6 +45,9 @@ app.use(cors());
 app.use("/", postRoutes);
 app.use("/", authRoutes);
 app.use("/", userRoutes);
+app.use("*", (req, res) => {
+res.sendFile(path.join(__dirname, "react-front/build/index.html"));
+});
 app.use(function(err, req, res, next) {
 if (err.name === "UnauthorizedError") {
 res.status(401).json({ error: "Unauthorized Access !!" });
