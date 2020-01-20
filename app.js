@@ -15,25 +15,27 @@ const morgan = require("morgan");
 //db
 connectDB();
 
-// app.use(express.static("react-front/build"));
-app.use(express.static(path.join(__dirname, "react-front/build")));
-
 //bring in routes
 const postRoutes = require("./routes/post");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 //apiDocs
-// app.get("/", (req, res) => {
-// fs.readFile("docs/apiDocs.json", (err, data) => {
-// if (err) {
-// res.status(400).json({
-// error: err
-// });
-// }
-// const docs = JSON.parse(data);
-// res.json(docs);
-// });
-// });
+app.get("/", (req, res) => {
+fs.readFile("docs/apiDocs.json", (err, data) => {
+if (err) {
+res.status(400).json({
+error: err
+});
+}
+const docs = JSON.parse(data);
+res.json(docs);
+});
+});
+
+//for deploy
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static('react-front/build'));
+}
 
 //middleware
 
@@ -45,9 +47,6 @@ app.use(cors());
 app.use("/", postRoutes);
 app.use("/", authRoutes);
 app.use("/", userRoutes);
-app.use("*", (req, res) => {
-res.sendFile(path.join(__dirname, "react-front/build/index.html"));
-});
 app.use(function(err, req, res, next) {
 if (err.name === "UnauthorizedError") {
 res.status(401).json({ error: "Unauthorized Access !!" });
