@@ -4,12 +4,9 @@
   "description": "A  Node Js API",
   "main": "app.js",
   "scripts": {
-    "react-front-install": "npm install --prefix react-front",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "server": "nodemon app.js",
-    "react-front": "npm start --prefix react-front",
-    "dev": "nodemon app.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix react-front && npm run build --prefix react-front"
+    "heroku-postbuild": "cd react-front && npm install && npm run build"
     },
   "keywords": [
     "node",
