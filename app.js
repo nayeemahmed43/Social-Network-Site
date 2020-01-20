@@ -32,13 +32,7 @@ res.json(docs);
 });
 });
 
-//for deploy
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static('react-front/build'));
-}
-
 //middleware
-
 app.use(morgan("dev"));
 app.use(expressValidator());
 app.use(bodyParser.json());
@@ -52,6 +46,17 @@ if (err.name === "UnauthorizedError") {
 res.status(401).json({ error: "Unauthorized Access !!" });
 }
 });
+
+//serve static assets if in production
+if(process.env.NODE_ENV === 'production'){
+    //set static folder
+    app.use(express.static('react-front/build'));
+
+    app.get('*', (req,res)=>{
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
+
 
 const Port = process.env.PORT || 8080;
 app.listen(Port, () => {
