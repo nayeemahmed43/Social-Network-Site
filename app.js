@@ -53,9 +53,9 @@ if(process.env.NODE_ENV === 'production'){
     //set static folder
     app.use(express.static('react-front/build'));
 
-    app.get('*', (req,res)=>{
-        res.sendFile(path.join(__dirname, 'react-front', 'build', 'index.html'));
-    });
+    // app.get('*', (req,res)=>{
+    //     res.sendFile(path.join(__dirname, 'react-front', 'build', 'index.html'));
+    // });
 }
 
 

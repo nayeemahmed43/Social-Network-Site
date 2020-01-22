@@ -5,8 +5,12 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd react-front && npm run build",
+    "install-react-front": "cd react-front && npm install",
+    "heroku-postbuild": "npm run install-react-front && npm run build",
     "start": "node app.js",
-    "heroku-postbuild": "cd react-front && npm install && npm run build"
+    "react-front": "cd react-front && npm start",
+    "dev": "nodemon app.js"
     },
   "keywords": [
     "node",
