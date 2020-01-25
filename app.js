@@ -39,6 +39,15 @@ app.use(expressValidator());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
+app.use(express.static('react-front/build'));
+
+
+
+app.use("/test", (req,res) => {
+        res.send("ok")
+});
+
+
 app.use("/", postRoutes);
 app.use("/", authRoutes);
 app.use("/", userRoutes);
@@ -51,12 +60,14 @@ res.status(401).json({ error: "Unauthorized Access !!" });
 //serve static assets if in production
 if(process.env.NODE_ENV === 'production'){
     //set static folder
-    app.use(express.static('react-front/build'));
+   
 
-    // app.get('*', (req,res)=>{
-    //     res.sendFile(path.join(__dirname, 'react-front', 'build', 'index.html'));
-    // });
+
 }
+
+app.get('*', (req,res)=>{
+    res.sendFile(path.join(__dirname, 'react-front', 'build', 'index.html'));
+});
 
 
 const Port = process.env.PORT || 8080;
