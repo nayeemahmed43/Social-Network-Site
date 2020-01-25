@@ -67,7 +67,7 @@ app.use(express.static("public/"));
 app.get("*", (req, res) => {
 res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
-
+console.log(__dirname);
 const Port = process.env.PORT || 8080;
 app.listen(Port, () => {
 console.log(`A Node Js API is listening on port: ${Port}`);
