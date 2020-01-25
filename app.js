@@ -39,7 +39,6 @@ app.use(expressValidator());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
-app.use(express.static('react-front/build'));
 
 
 
@@ -57,18 +56,17 @@ res.status(401).json({ error: "Unauthorized Access !!" });
 }
 });
 
-//serve static assets if in production
-if(process.env.NODE_ENV === 'production'){
-    //set static folder
-   
+// //serve static assets if in production
+// if(process.env.NODE_ENV === 'production'){
 
+//    }
 
-}
-
-app.get('*', (req,res)=>{
-    res.sendFile(path.join(__dirname, 'react-front', 'build', 'index.html'));
+// Set static folder
+app.use(express.static("client/build"));
+app.use(express.static("public/"));
+app.get("*", (req, res) => {
+res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
-
 
 const Port = process.env.PORT || 8080;
 app.listen(Port, () => {
